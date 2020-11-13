@@ -1,0 +1,75 @@
+#!/bin/bash
+
+make
+
+./myprog.exe file.txt > output
+
+result="($diff resultcheck output)"
+
+if [ $? -eq 0 ];
+then
+	echo "Successful: Passed test for correct output"
+else
+	echo "Failed: Didn't print correct output"
+	echo $result
+fi
+
+./myprog.exe > output 
+
+result="($diff nofiletest output)"
+
+if [ $? -eq 0 ];
+then 
+	echo "Successful: Passed test for missing arguments"
+else
+	echo "Failed: Didn't register missing arguments"
+	echo $result
+fi
+
+./myprog.exe nonexistentfile.txt > output
+
+result="($diff wrongfiletest output)"
+
+if [ $? -eq 0 ];
+then
+	echo "Successful: Passed test for non-existent file"
+else 
+	echo "Failed: Didn't pass non-existent file test"
+	echo $result
+fi
+
+gcc node.c binarytree.c searchtest.c
+
+./a.out 0
+
+if [ $? -eq 0 ];
+then
+	echo "Successful: Insert is working correctly"
+else
+	echo "Failed: Insert isn't working correct"
+fi
+
+gcc node.c binarytree.c searchtest.c
+
+./a.out 1
+
+if [ $? -eq 0 ];
+then
+	echo "Successful: Search is working correctly"
+else
+	echo "Failed: Search isn't working correctly"
+fi
+
+gcc node.c binarytree.c initializetest.c
+
+./a.out
+
+if [ $? -eq 0 ];
+then
+	echo "Successful: Initialize is working correctly"
+else
+	echo "Failed: Initialize isn't working correctly"
+fi
+
+make clean
+
